@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crossy Chicken — Choose Version</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #5ec8f8 0%, #9be2ff 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      padding: 24px;
+      text-align: center;
+    }
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 4px 0 #1e293b;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 36px;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    a.btn {
+      display: inline-block;
+      min-width: 210px;
+      padding: 20px 32px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: #ffffff;
+      border-radius: 14px;
+      border: 3px solid #1e293b;
+      box-shadow: 0 6px 0 #1e293b;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    a.btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #1e293b;
+    }
+    a.btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #1e293b;
+    }
+    .btn-unity { background-color: #2563eb; }
+    .btn-html  { background-color: #16a34a; }
+  </style>
+</head>
+<body>
+  <h1>CROSSY CHICKEN</h1>
+  <p>by Hayes Lacoste — Choose a version to play</p>
+
+  <div class="buttons">
+    <a class="btn btn-unity" href="./final%20game/">Unity Version</a>
+    <a class="btn btn-html" href="./html/">HTML Version</a>
+  </div>
+</body>
+</html>
