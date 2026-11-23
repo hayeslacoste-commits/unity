@@ -63,6 +63,7 @@
       gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
+      max-width: 520px;
     }
     .btn {
       display: inline-block;
@@ -80,10 +81,11 @@
     }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1e293b; }
     .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #1e293b; }
-    .btn-login { background-color: #1e293b; width: 100%; }
-    .btn-unity { background-color: #2563eb; }
-    .btn-html  { background-color: #16a34a; }
-    .btn-plane { background-color: #ea580c; }
+    .btn-login  { background-color: #1e293b; width: 100%; }
+    .btn-unity  { background-color: #2563eb; }
+    .btn-html   { background-color: #16a34a; }
+    .btn-plane  { background-color: #ea580c; }
+    .btn-game4  { background-color: #9333ea; }
     .logout {
       margin-top: 32px;
       background: none;
@@ -119,8 +121,9 @@
 
     <div class="buttons">
       <a class="btn btn-unity" href="/play/unity-game">Unity Version</a>
-      <a class="btn btn-html" href="/play/html/">HTML Version</a>
-      <a class="btn btn-plane" href="/play/plane-game/">Plane Game</a>
+      <a class="btn btn-html" href="/play/html">HTML Version</a>
+      <a class="btn btn-plane" href="/play/plane-game">Plane Game</a>
+      <a class="btn btn-game4" href="/play/game-4">Game 4</a>
     </div>
 
     <button class="logout" onclick="handleLogout()">Sign Out</button>
@@ -169,13 +172,12 @@
     }
 
     async function handleLogout() {
-  await fetch("/api/logout", { method: "POST" });
-  sessionStorage.removeItem("portal_unlocked");
-  document.getElementById("password").value = "";
-  document.getElementById("game-screen").classList.add("hidden");
-  document.getElementById("login-screen").classList.remove("hidden");
-}
-
+      await fetch("/api/logout", { method: "POST" });
+      sessionStorage.removeItem("portal_unlocked");
+      document.getElementById("password").value = "";
+      document.getElementById("game-screen").classList.add("hidden");
+      document.getElementById("login-screen").classList.remove("hidden");
+    }
   </script>
 
 </body>
