@@ -118,9 +118,9 @@
     <p>by Hayes Lacoste — Choose a game to play</p>
 
     <div class="buttons">
-      <a class="btn btn-unity" href="./final%20game/">Unity Version</a>
-      <a class="btn btn-html" href="./html/">HTML Version</a>
-      <a class="btn btn-plane" href="./plane-game/">Plane Game</a>
+      <a class="btn btn-unity" href="/play/final%20game/">Unity Version</a>
+      <a class="btn btn-html" href="/play/html/">HTML Version</a>
+      <a class="btn btn-plane" href="/play/plane-game/">Plane Game</a>
     </div>
 
     <button class="logout" onclick="handleLogout()">Sign Out</button>
@@ -169,6 +169,7 @@
     }
 
     function handleLogout() {
+      document.cookie = "portal_auth=; Path=/; Max-Age=0";
       sessionStorage.removeItem("portal_unlocked");
       document.getElementById("password").value = "";
       document.getElementById("game-screen").classList.add("hidden");
