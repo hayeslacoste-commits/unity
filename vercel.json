@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/play.js": {
+      "includeFiles": "_games/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/play/:path*",
+      "destination": "/api/play?path=:path*"
+    }
+  ]
+}
