@@ -15,7 +15,7 @@
       background: linear-gradient(180deg, #5ec8f8 0%, #9be2ff 100%);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: #1e293b;
-      padding: 24px;
+      padding: 32px 24px;
       text-align: center;
     }
     h1 {
@@ -60,16 +60,16 @@
     }
     .buttons {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
       justify-content: center;
-      max-width: 720px;
+      max-width: 960px;
     }
     .btn {
       display: inline-block;
-      min-width: 210px;
-      padding: 20px 32px;
-      font-size: 1.3rem;
+      min-width: 200px;
+      padding: 18px 28px;
+      font-size: 1.2rem;
       font-weight: 800;
       text-decoration: none;
       color: #ffffff;
@@ -87,6 +87,9 @@
     .btn-plane  { background-color: #ea580c; }
     .btn-game4  { background-color: #9333ea; }
     .btn-rocket { background-color: #0891b2; }
+    .btn-papas  { background-color: #db2777; }
+    .btn-moto   { background-color: #d97706; }
+    .btn-retro  { background-color: #4f46e5; }
     .logout {
       margin-top: 32px;
       background: none;
@@ -126,6 +129,19 @@
       <a class="btn btn-plane" href="/play/plane-game">Plane Game</a>
       <a class="btn btn-game4" href="/play/game-4">1v1 lol</a>
       <a class="btn btn-rocket" href="/play/temu-rocket-league">Temu Rocket League</a>
+
+      <!-- Papas Subfolders -->
+      <a class="btn btn-papas" href="/play/papas/froyo">froyo</a>
+      <a class="btn btn-papas" href="/play/papas/hotdog">hotdog</a>
+      <a class="btn btn-papas" href="/play/papas/pizza">pizza</a>
+
+      <!-- Moto Subfolders -->
+      <a class="btn btn-moto" href="/play/moto/reg">regular</a>
+      <a class="btn btn-moto" href="/play/moto/winter">winter</a>
+
+      <!-- Retro Subfolders -->
+      <a class="btn btn-retro" href="/play/retro/collage">collage</a>
+      <a class="btn btn-retro" href="/play/retro/nfl">nfl</a>
     </div>
 
     <button class="logout" onclick="handleLogout()">Sign Out</button>
