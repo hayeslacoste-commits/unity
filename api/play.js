@@ -34,7 +34,7 @@ export default function handler(req, res) {
   const rawPath = Array.isArray(req.query.path)
     ? req.query.path.join("/")
     : req.query.path || "";
-  const cleanPath = decodeURIComponent(rawPath).replace(/\.\./g, "");
+  const cleanPath = decodeURIComponent(rawPath).replace(/\.\./g, "").replace(/\/+$/, "");
   const baseDir = path.join(process.cwd(), "_games");
   let filePath = path.join(baseDir, cleanPath);
 
@@ -42,13 +42,10 @@ export default function handler(req, res) {
     return res.status(403).send("Forbidden");
   }
 
-  // 3. Enforce trailing slash on folder URLs so relative assets (Build/, TemplateData/) resolve
+  let isDirectoryIndex = false;
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-    const incomingUrl = (req.url || "").split("?")[0];
-    if (!incomingUrl.endsWith("/")) {
-      return res.redirect(308, encodeURI(`/play/${cleanPath}/`));
-    }
     filePath = path.join(filePath, "index.html");
+    isDirectoryIndex = true;
   }
 
   if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
@@ -58,5 +55,14 @@ export default function handler(req, res) {
   const ext = path.extname(filePath).toLowerCase();
   res.setHeader("Content-Type", MIME_TYPES[ext] || "application/octet-stream");
   res.setHeader("Cache-Control", "no-store");
+
+  // 3. Inject <base> into directory index.html so relative Build/ & TemplateData/ paths always work
+  if (isDirectoryIndex && ext === ".html") {
+    let html = fs.readFileSync(filePath, "utf8");
+    const baseTag = `<base href="${encodeURI(`/play/${cleanPath}/`)}">`;
+    html = html.replace(/<head>/i, `<head>\n  ${baseTag}`);
+    return res.send(html);
+  }
+
   return res.send(fs.readFileSync(filePath));
 }
