@@ -19,14 +19,14 @@ export default function handler(req, res) {
   const allowedEmail = "hayeslacoste@gmail.com";
   const authSecret = process.env.AUTH_SECRET || process.env.SITE_PASSWORD;
 
-  // 1. Check for valid login cookie
+  // 1. Verify signed login cookie (note match[1]!)
   const cookieHeader = req.headers.cookie || "";
   const match = cookieHeader.match(/(?:^|;\s*)portal_auth=([a-f0-9]+)/);
   const expectedToken = authSecret
     ? crypto.createHmac("sha256", authSecret).update(allowedEmail).digest("hex")
     : null;
 
-  if (!match || !expectedToken || match !== expectedToken) {
+  if (!match || !expectedToken || match[1] !== expectedToken) {
     return res.redirect(302, "/");
   }
 
@@ -56,7 +56,6 @@ export default function handler(req, res) {
   res.setHeader("Content-Type", MIME_TYPES[ext] || "application/octet-stream");
   res.setHeader("Cache-Control", "no-store");
 
-  // 3. Inject <base> into directory index.html so relative Build/ & TemplateData/ paths always work
   if (isDirectoryIndex && ext === ".html") {
     let html = fs.readFileSync(filePath, "utf8");
     const baseTag = `<base href="${encodeURI(`/play/${cleanPath}/`)}">`;
