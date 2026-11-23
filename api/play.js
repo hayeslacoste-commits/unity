@@ -19,14 +19,19 @@ export default function handler(req, res) {
   const allowedEmail = "hayeslacoste@gmail.com";
   const authSecret = process.env.AUTH_SECRET || process.env.SITE_PASSWORD;
 
-  // 1. Verify signed login cookie (note match[1]!)
+  // 1. Extract portal_auth cookie safely without array brackets
   const cookieHeader = req.headers.cookie || "";
-  const match = cookieHeader.match(/(?:^|;\s*)portal_auth=([a-f0-9]+)/);
+  const portalCookie = cookieHeader
+    .split(";")
+    .map((c) => c.trim())
+    .find((c) => c.startsWith("portal_auth="));
+  const userToken = portalCookie ? portalCookie.slice("portal_auth=".length) : "";
+
   const expectedToken = authSecret
     ? crypto.createHmac("sha256", authSecret).update(allowedEmail).digest("hex")
-    : null;
+    : "";
 
-  if (!match || !expectedToken || match[1] !== expectedToken) {
+  if (!userToken || !expectedToken || userToken !== expectedToken) {
     return res.redirect(302, "/");
   }
 
