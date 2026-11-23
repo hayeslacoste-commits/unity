@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "functions": {
     "api/play.js": {
       "includeFiles": "_games/**"
