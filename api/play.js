@@ -12,14 +12,15 @@ const MIME_TYPES = {
   ".jpg": "image/jpeg",
   ".ico": "image/x-icon",
   ".json": "application/json",
-  ".svg": "image/svg+xml"
+  ".svg": "image/svg+xml",
+  ".swf": "application/x-shockwave-flash"
 };
 
 export default function handler(req, res) {
   const allowedEmail = "hayeslacoste@gmail.com";
   const authSecret = process.env.AUTH_SECRET || process.env.SITE_PASSWORD;
 
-  // 1. Extract portal_auth cookie safely without array brackets
+  // 1. Extract portal_auth cookie safely
   const cookieHeader = req.headers.cookie || "";
   const portalCookie = cookieHeader
     .split(";")
@@ -47,10 +48,8 @@ export default function handler(req, res) {
     return res.status(403).send("Forbidden");
   }
 
-  let isDirectoryIndex = false;
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
     filePath = path.join(filePath, "index.html");
-    isDirectoryIndex = true;
   }
 
   if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
@@ -60,13 +59,6 @@ export default function handler(req, res) {
   const ext = path.extname(filePath).toLowerCase();
   res.setHeader("Content-Type", MIME_TYPES[ext] || "application/octet-stream");
   res.setHeader("Cache-Control", "no-store");
-
-  if (isDirectoryIndex && ext === ".html") {
-    let html = fs.readFileSync(filePath, "utf8");
-    const baseTag = `<base href="${encodeURI(`/play/${cleanPath}/`)}">`;
-    html = html.replace(/<head>/i, `<head>\n  ${baseTag}`);
-    return res.send(html);
-  }
 
   return res.send(fs.readFileSync(filePath));
 }
