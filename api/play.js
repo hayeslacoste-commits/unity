@@ -12,8 +12,7 @@ const MIME_TYPES = {
   ".jpg": "image/jpeg",
   ".ico": "image/x-icon",
   ".json": "application/json",
-  ".svg": "image/svg+xml",
-  ".symbols.json": "application/json"
+  ".svg": "image/svg+xml"
 };
 
 export default function handler(req, res) {
@@ -27,7 +26,7 @@ export default function handler(req, res) {
     ? crypto.createHmac("sha256", authSecret).update(allowedEmail).digest("hex")
     : null;
 
-  if (!match || !expectedToken || match[1] !== expectedToken) {
+  if (!match || !expectedToken || match !== expectedToken) {
     return res.redirect(302, "/");
   }
 
@@ -43,7 +42,12 @@ export default function handler(req, res) {
     return res.status(403).send("Forbidden");
   }
 
+  // 3. Enforce trailing slash on folder URLs so relative assets (Build/, TemplateData/) resolve
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    const incomingUrl = (req.url || "").split("?")[0];
+    if (!incomingUrl.endsWith("/")) {
+      return res.redirect(308, encodeURI(`/play/${cleanPath}/`));
+    }
     filePath = path.join(filePath, "index.html");
   }
 
